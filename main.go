@@ -151,29 +151,32 @@ func main() {
 	nacosUrl := viper.GetString("url")
 	srcConfigString := viper.GetString("srcConfigString")
 	targetConfigString := viper.GetString("targetConfigString")
-	tenant := viper.GetString("tenant")
-	configItemMap := make(map[string]NacosNsConfigItem)
-	var count int
-	nacosConfigList := getNsConfigList(nacosUrl, tenant)
-	//获取当前nacos namespace 所有dataId的切片
-	var nacosDataIdSlice []string
-	for _, configItem := range nacosConfigList.PageItems {
-		dataId := configItem.DataId
-		nacosDataIdSlice = append(nacosDataIdSlice, dataId)
-		configItemMap[dataId] = configItem
-	}
-	var dataIdList []string
-	for _, dataId := range nacosDataIdSlice {
-		group := configItemMap[dataId].Group
-		nacosConfig := getDetailConfig(nacosUrl, dataId, group, tenant)
-		if strings.Contains(nacosConfig.Content, srcConfigString) {
-			updateParams := configDetailGenerate(nacosConfig, srcConfigString, targetConfigString)
-			result := updateConfig(nacosUrl, updateParams)
-			if result {
-				count = count + 1
-			}
-			dataIdList = append(dataIdList, dataId)
+	// tenant := viper.GetString("tenant")
+	tenants := viper.GetStringSlice("tenant")
+	for _, tenant := range tenants {
+		configItemMap := make(map[string]NacosNsConfigItem)
+		var count int
+		nacosConfigList := getNsConfigList(nacosUrl, tenant)
+		//获取当前nacos namespace 所有dataId的切片
+		var nacosDataIdSlice []string
+		for _, configItem := range nacosConfigList.PageItems {
+			dataId := configItem.DataId
+			nacosDataIdSlice = append(nacosDataIdSlice, dataId)
+			configItemMap[dataId] = configItem
 		}
+		var dataIdList []string
+		for _, dataId := range nacosDataIdSlice {
+			group := configItemMap[dataId].Group
+			nacosConfig := getDetailConfig(nacosUrl, dataId, group, tenant)
+			if strings.Contains(nacosConfig.Content, srcConfigString) {
+				updateParams := configDetailGenerate(nacosConfig, srcConfigString, targetConfigString)
+				result := updateConfig(nacosUrl, updateParams)
+				if result {
+					count = count + 1
+				}
+				dataIdList = append(dataIdList, dataId)
+			}
+		}
+		log.Printf("命名空间（%s） 配置:%s共完成%d处替换,以下dataId发生了变更: %s", tenant, targetConfigString, count, dataIdList)
 	}
-	log.Printf("配置:%s共完成%d处替换,以下dataId发生了变更: %s", targetConfigString, count, dataIdList)
 }
