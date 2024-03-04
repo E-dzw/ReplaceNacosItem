@@ -31,7 +31,7 @@ func SendHttpRequest(method string, urlString string, reqBody string, urlParams 
 		}
 	}
 
-	if flag {
+	if !flag {
 		log.Printf("request methods not support")
 	}
 

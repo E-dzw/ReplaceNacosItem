@@ -1,0 +1,15 @@
+# nacos 地址
+url = "http://nacos-hbos-test.cfuture.shop"
+
+# nacos的命名空间名称
+tenant = "qingfeng-test"
+
+# 要替换的原配置
+srcConfigString = "host: 192.168.54.201\n      port: 6380"
+
+# 替换之后的目标配置
+targetConfigString = "sentinel:\n        master: mymaster\n        nodes: rfs-redisfailover.databases.svc.cluster.local:26379"
+
+
+
+

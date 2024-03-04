@@ -9,5 +9,3 @@ srcConfigString = "foo=bar"
 
 # 替换之后的目标配置
 targetConfigString = "foo=bar-1"
-
-

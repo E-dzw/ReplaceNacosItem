@@ -1,14 +1,15 @@
 # nacos 地址
-url = "http://nacos-zslnyy.cfuture.shop"
+url = "http://nacos-new-base-poc.cfuture.shop"
 
 # nacos的命名空间名称
-tenant = "cache"
+tenant = "application"
 
 # 要替换的原配置
-srcConfigString = "host: redis-master.databases.svc.cluster.local"
+srcConfigString = "&autoconnect=true&"
 
 # 替换之后的目标配置
-targetConfigString = "sentinel:\n        master: mymaster\n        nodes: rfs-redisfailover.databases.svc.cluster.local:26379"
+targetConfigString = "&autoReconnect=true&"
+
 
 
 
