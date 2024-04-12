@@ -1,11 +1,15 @@
 # nacos 地址
-url = "http://nacos-hbos-dev.cfuture.shop"
+url = "http://nacos-new-base-poc.cfuture.shop"
 
 # nacos的命名空间名称
-tenant = "qingfeng-test"
+tenant = "application"
 
 # 要替换的原配置
-srcConfigString = "foo=bar"
+srcConfigString = "&autoconnect=true&"
 
 # 替换之后的目标配置
-targetConfigString = "foo=bar-1"
+targetConfigString = "&autoReconnect=true&"
+
+
+
+
